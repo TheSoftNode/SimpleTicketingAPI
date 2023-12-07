@@ -74,5 +74,42 @@ namespace SimpleTicketingAPI.Controllers
 
 			return Ok(convertedTicket);
 		}
+
+		// Update
+		[HttpPut]
+		[Route("edit/{id}")]
+		public async Task<IActionResult> EditTicket([FromRoute] long id, [FromBody] UpdateTicketDto updateTicketDto)
+		{
+			// Get ticket from context and check if it exists
+			var ticket = await _dbContext.Tickets.FirstOrDefaultAsync(t => t.Id == id);
+			if (ticket is null)
+			{
+				return NotFound("Ticket Not found");
+			}
+
+			_mapper.Map(updateTicketDto, ticket);
+			ticket.UpdatedAt = DateTime.Now;
+			await _dbContext.SaveChangesAsync();
+
+			return Ok("ticket updated successfully");
+		}
+
+		// Delete
+		[HttpDelete]
+		[Route("delete/{id}")]
+		public async Task<IActionResult> DeleteTask([FromRoute] long id)
+		{
+			// Get ticket from context and check if it exists
+			var ticket = await _dbContext.Tickets.FirstOrDefaultAsync(t => t.Id == id);
+			if (ticket is null)
+			{
+				return NotFound("Ticket Not found");
+			}
+
+			_dbContext.Tickets.Remove(ticket);
+			await _dbContext.SaveChangesAsync();
+
+			return Ok("Ticket Deleted successfully");
+		}
 	}
 }
