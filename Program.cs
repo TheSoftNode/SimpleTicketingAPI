@@ -1,6 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using SimpleTicketingAPI.Core.Context;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Config Database
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+{
+	var connectionString = builder.Configuration.GetConnectionString("local");
+	options.UseSqlServer(connectionString);
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
