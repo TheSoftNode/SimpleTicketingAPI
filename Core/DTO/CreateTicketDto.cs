@@ -1,6 +1,6 @@
 ﻿namespace SimpleTicketingAPI.Core.DTO
 {
-	public class CreactTicketDto
+	public class CreateTicketDto
 	{
 
 		public DateTime Time { get; set; }
