@@ -16,6 +16,11 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 // Config AutoMapper
 builder.Services.AddAutoMapper(typeof(AutoMapperConfigProfile));
 
+builder.Services.AddCors(p => p.AddDefaultPolicy(build =>
+{
+	build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -29,6 +34,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
